@@ -1,0 +1,35 @@
+pipeline{
+    agent any
+    environment {
+        PATH = "$PATH:/opt/apache-maven-3.6.3/bin"
+    }
+    stages{
+       stage('GetCode'){
+            steps{
+                git "https://github.com/Deba-shis/02-mavaen-pratice.git"
+            }
+         }        
+       stage('Build'){
+            steps{
+                sh 'mvn clean package'
+            }
+         }
+        stage('SonarQube analysis') {
+//    def scannerHome = tool 'SonarScanner 4.0';
+        steps{
+        withSonarQubeEnv('Sonar-Server-7.8') { 
+        // If you have configured more than one global server connection, you can specify its name
+//      sh "${scannerHome}/bin/sonar-scanner"
+        sh "mvn sonar:sonar"
+    }
+        }
+        }
+        stage ('code deploy'){
+            steps{
+       sshagent(['101']) {
+           sh 'scp -o StrictHostKeyChecKing=no target/01-Maven-App.war ec2-user@3.108.42.58:/home/ec2-user/apache-tomcat-9.0.65/webapps'
+       }
+       }
+}
+    }
+}
