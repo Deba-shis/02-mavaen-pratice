@@ -1,5 +1,3 @@
-FROM ubuntu 
+FROM tomcat:8.0.20-jre8
 
-RUN apt-get update 
-RUN apt-get install –y nginx 
-CMD [“echo”,”Image created”]
+COPY target/01-maven-web-app*.war /usr/local/tomcat/webapps/cicdsetup_1.war
