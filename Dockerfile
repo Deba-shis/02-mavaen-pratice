@@ -1,3 +1,5 @@
-FROM tomcat:8.0.20-jre8
+FROM ubuntu 
 
-COPY 01-maven-web-app*.war /usr/local/tomcat/webapps/maven-web-app.war
+RUN apt-get update 
+RUN apt-get install –y nginx 
+CMD [“echo”,”Image created”]
