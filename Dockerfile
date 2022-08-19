@@ -1,3 +1,7 @@
-FROM tomcat:8.0.20-jre8
+FROM ubuntu
 
-COPY target/01-maven-web-app*.war /usr/local/tomcat/webapps/maven-web-app.war
+MAINTAINER amarganji40
+
+RUN apt-get update
+
+CMD ["echo", "Hello World"]
